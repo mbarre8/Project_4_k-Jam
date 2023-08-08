@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Prediction</title>
+    <h1>{{ticker}} Stock Dashboard</h1>
+    
+    <style>
+        h1 {
+                color: rgb(4, 55, 107);
+                text-align: center;
+                padding: 30px;
+                background-size: cover;
+                background-color: rgb(163, 185, 200)
+            }
+       
+    </style>
+    <script>
+        function fetchOverallAverageScore(ticker) {
+            fetch(`http://127.0.0.1:5000/api/v1.0/parse_and_score_news`)
+                .then(response => response.json())
+                .then(data => {
+                    const tickerData = data.find(item => item.ticker === ticker);
+                    if (tickerData) {
+                        const overallAverageScore = tickerData.sentiment_score;
+                        // Update the HTML with the overall average score
+                        document.querySelector('.container p').textContent = `Overall Average Sentiment Score: ${overallAverageScore}`;
+                    } else {
+                        document.querySelector('.container p').textContent = 'Ticker not found or sentiment data unavailable for this ticker.';
+                    }
+                })
+                .catch(error => console.error('Error fetching overall average score:', error));
+        }
+    
+        function refreshPage() {
+            var tickerValue = document.getElementById("ticker_input").value;
+            if (['HLT', 'MAR', 'CCL', 'WMT', 'WH', 'AMZN', 'UAL', 'DAL', 'CAKE', 'RUTH', 'RCL'].includes(tickerValue)) {
+                location.reload();
+            } else {
+                // Fetch overall average score for the selected ticker
+                fetchOverallAverageScore(tickerValue);
+            }
+        }
+      </script>
+</head>
+<body>
+   <style> body {
+    background-color: rgb(237, 246, 252);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}</style>
+    <h2>Quarterly Stock Prediction Result</h2>
+    <p>Ticker: {{ ticker }}</p>
+    <!-- <p>Predicted Return: {{ prediction }}</p> -->
+    <p>Total Predicted Return: <span class="{% if prediction < 0 %}negative{% else %}positive{% endif %}">${{ "%.3f"|format(prediction * volume)}}</span></p>
+    <p>Percentage Change: <span class="{% if prediction < 0 %}negative{% else %}positive{% endif %}">{{ "%.3f"|format((prediction / price) * 100) }}%</span></p>
+
+    <style>
+        /* Define the styles for the negative class */
+        span.negative {
+            color: red;
+        }
+
+        /* Define the styles for the positive class (optional) */
+        span.positive {
+            color: green;
+        }
+    </style>
+
+    <br>
+   
+    {% if submitted %}
+    <h2>Sentiment Analysis</h2>
+    <p>Overall Average Sentiment Score: {{ overall_average_score }}</p>
+
+    <!-- Conditionally include Plotly JavaScript CDN links when the form is submitted and plot needs to be displayed -->
+    {% if plot_html %}
+    <!-- Add Plotly JavaScript CDN links -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.8.0.min.js"></script>
+    <!-- Add the plot HTML here -->
+    {{ plot_html|safe }}
+    {% endif %}
+
+    {% endif %}
+        <div class="overall-score">
+            <!-- The overall sentiment score will be displayed here -->
+        </div>
+
+    
+</body>
+</html>
+

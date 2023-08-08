@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Stock Prediction</title>
+</head>
+<body>
+    <h1>Daily Stock Return Prediction</h1>
+    <form method="post" action="/">
+        <label for="ticker"> Select Ticker:</label>
+        <select id="ticker" name="ticker">
+            <option value="AMZN">AMZN (Amazon.com, Inc.)</option>
+            <option value="CAKE">CAKE (Cheesecake Factory Inc)</option>
+            <option value="CCL">CCL (Carnival Corp)</option>
+            <option value="DAL">DAL (Delta Air Lines, Inc.)</option>
+            <option value="HLT">HLT (Hilton Hotels Corporation Common Stock)</option>
+            <option value="MAR">MAR (Marriott International Inc)</option>
+            <option value="RCL">RCL (Royal Caribbean Cruises Ltd)</option>
+            <option value="RUTH">RUTH (Ruth's Chris Steak House, Inc.)</option>
+            <option value="UAL">UAL (United Airlines Holdings Inc)</option>
+            <option value="WH">WH (Wyndham Hotels & Resorts Inc)</option>
+            <option value="WMT">WMT (Walmart Inc)</option>
+        </select>
+        <br>
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price">
+        <br>
+        <label for="volume">Volume:</label>
+        <input type="text" id="volume" name="volume">
+        <br>
+
+        <input type="submit" value="Predict">
+    </form>
+    
+    
+</body>
+</html>

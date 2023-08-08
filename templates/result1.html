@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Return Prediction</title>
+</head>
+<body>
+    <h1>Daily Stock Prediction Result</h1>
+    <p>Ticker: {{ ticker }}</p>
+    <!-- <p>Predicted Return: {{ prediction }}</p> -->
+    <p>Total Predicted Return: {{ "%.3f"|format(prediction * volume)}}</p>
+    <p>Percentage Change: {{ "%.3f"|format((prediction / price) * 100) }}%</p>
+</body>
+</html>
