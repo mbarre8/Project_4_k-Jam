@@ -24,7 +24,7 @@ We utilized seven years of data (2017-2023) consisting of ~17,600 rows; our assu
 
 ### Result:
 Below is a static snapshot of the dashboard:
-![](Dashboard_image.png)
+![](Dashboard_image1.png)
 
 ![](Storyboard_image.png)
 ### Tools Utilized:
