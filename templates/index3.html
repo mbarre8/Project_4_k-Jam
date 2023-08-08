@@ -1,87 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Quaterly Stock Prediction</title>
+    <title>Stock Return Prediction</title>
 </head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-<style>
-    h1 {
-            color: rgb(4, 55, 107);
-            text-align: center;
-            padding: 30px;
-            background-size: cover;
-            background-color: rgb(163, 185, 200)
-        }
-</style>
-<h1>KJAM Equity Stocks Prediction</h1>
 <body>
-    <style> body {
-        background-color: rgb(237, 246, 252);
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
-    }</style>
-    <h2>Stock Information</h2>
+    <h1>Daily Stock Return Prediction</h1>
+    
+    <!-- Input form for user to select stock, enter price, and volume -->
     <form method="post" action="/">
-        <form method="POST" id="ticker_form">
-        <label for="ticker"> Select Ticker:</label>
-        <select id="ticker" name="ticker" onchange="fetchSharpeRatio()">
+        <label for="ticker">Select Ticker:</label>
+        <select id="ticker" name="ticker">
             <option value="AMZN">AMZN (Amazon.com, Inc.)</option>
             <option value="CAKE">CAKE (Cheesecake Factory Inc)</option>
-            <option value="CCL">CCL (Carnival Corp)</option>
-            <option value="DAL">DAL (Delta Air Lines, Inc.)</option>
-            <option value="HLT">HLT (Hilton Hotels Corporation Common Stock)</option>
-            <option value="MAR">MAR (Marriott International Inc)</option>
-            <option value="RCL">RCL (Royal Caribbean Cruises Ltd)</option>
-            <option value="RUTH">RUTH (Ruth's Chris Steak House, Inc.)</option>
-            <option value="UAL">UAL (United Airlines Holdings Inc)</option>
-            <option value="WH">WH (Wyndham Hotels & Resorts Inc)</option>
-            <option value="WMT">WMT (Walmart Inc)</option>
+            <!-- Add more options for other tickers -->
         </select>
-        
         <br>
-        <br>
-        <label for="price">Price:</label>
-        <input type="text" id="price" name="price">
-        <br>
-        <br>
+        <label for="price">Close Price:</label>
+        <input type="text" name="price" id="price">
         <label for="volume">Volume:</label>
-        <input type="text" id="volume" name="volume">
-        <br>
-        <br>
-         <!-- Add an input field for Sharpe Ratio -->
-         <label for="sharpe_ratio">Last Quarter's Sharpe Ratio:</label>
-         <input type="text" id="sharpe_ratio" name="sharpe_ratio" readonly><br>
-
-        <input type="submit" value="Predict">
+        <input type="text" name="volume" id="volume">
+        <button type="submit">Predict</button>
     </form>
-    </form>
-
     
-    <script>
-        // JavaScript function to update the Sharpe Ratio field based on the selected ticker
-        function fetchSharpeRatio() {
-            var tickerSelect = document.getElementById("ticker");
-            var sharpeRatioField = document.getElementById("sharpe_ratio");
-            var selectedTicker = tickerSelect.value;
-
-            // Make an AJAX request to fetch the Sharpe Ratio from the server
-            // You can replace the URL with the appropriate endpoint in your Flask app
-            fetch('/get_sharpe_ratio?ticker=' + selectedTicker)
-                .then(response => response.json())
-                .then(data => {
-                    sharpeRatioField.value = data.sharpe_ratio;
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
-
-        // Call the function on page load to set the initial Sharpe Ratio value
-        fetchSharpeRatio();
-
-    </script>
-
+    <!-- Display predicted results if available -->
+    {% if ticker %}
+    <h2>Predicted Results for {{ ticker }}:</h2>
+    <ul>
+        <li>Predicted Return: {{ prediction }}</li>
+        <li>Total Predicted Return: {{ "%.3f"|format(prediction * volume) }}</li>
+        <li>Percentage Change: {{ "%.3f"|format((prediction / price) * 100) }}%</li>
+    </ul>
+    {% endif %}
 </body>
 </html>
+
 
